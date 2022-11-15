@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BodyActivity"
+    android:orientation="vertical"
+    android:background="@mipmap/bg"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/black"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/notify_progress_green" />
+
+        <EditText
+            android:id="@+id/et_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/btn_progress"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn3"
+            android:cursorVisible="false"
+            android:gravity="center"
+            android:hint="今日时长"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/btn_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/btn_progress"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/tbn4"
+            android:gravity="center"
+            android:text="设置"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+
+        <EditText
+            android:id="@+id/tv_time0"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_progress"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="51dp"
+            android:background="@drawable/btn3"
+            android:cursorVisible="false"
+            android:gravity="center"
+            android:hint="TIME"
+            android:inputType="text|number"
+            android:paddingLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btn_settime"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_progress"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/tbn4"
+            android:text="确定" />
+
+        <com.example.clock.widget.TextProgressCircle
+            android:id="@+id/tpc_progress"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
+
+       <!-- <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@mipmap/bg1"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="26sp" />-->
+
+        <Button
+            android:id="@+id/btn_runnable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/tpc_progress"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/tbn5"
+            android:gravity="center"
+            android:text="开始倒计时"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</LinearLayout>
