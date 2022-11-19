@@ -6,8 +6,7 @@
     <item
         android:id="@+id/menu_change"
         android:orderInCategory="0"
-        android:title="切换用户"
-        android:icon="@drawable/rank" />
+        android:title="切换用户" />
     <item
         android:id="@+id/menu_logout"
         android:orderInCategory="1"

@@ -102,7 +102,6 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
                                 break;
                             case R.id.menu_finish:
                                 Toast.makeText(BodyActivity.this, "finish", Toast.LENGTH_SHORT).show();
-                                System.out.println(sHA1(BodyActivity.this));
                                 break;
                             case R.id.menu_logout:
                                 startActivity(new Intent(BodyActivity.this,LoginShareActivity.class));
@@ -117,37 +116,6 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
         });
 
     }
-
-
-    public static String sHA1(Context context) {
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(
-                    context.getPackageName(), PackageManager.GET_SIGNATURES);
-            byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] publicKey = md.digest(cert);
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < publicKey.length; i++) {
-                String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(Locale.US);
-                if (appendString.length() == 1)
-                    hexString.append("0");
-                hexString.append(appendString);
-                hexString.append(":");
-            }
-            String result = hexString.toString();
-            //result即为获取的SHA1值,如果最后面有冒号的话就去掉
-            Log.i(TAG,result.toString());
-            return result.substring(0, result.length()-1);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
 
     //initTab()方法表示没有点击图标的时候的初始状态
     private void initTab() {
@@ -171,11 +139,11 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
 
             ((TextView)view.findViewById(R.id.tvTab)).setTextColor(Color.RED);
             //设置为点亮的图标
-            ((ImageView)view.findViewById(R.id.ivImg)).setImageResource(TabDb.getImgId()[idx]);
+            ((ImageView)view.findViewById(R.id.ivImg)).setImageResource(TabDb.getImgChoId()[idx]);
         }else{
             //设置为点不亮的图标
             ((TextView)view.findViewById(R.id.tvTab)).setTextColor(Color.GRAY);
-            ((ImageView)view.findViewById(R.id.ivImg)).setImageResource(TabDb.getImgId()[idx]);
+            ((ImageView)view.findViewById(R.id.ivImg)).setImageResource(TabDb.getImgNotId()[idx]);
         }
         return view;
     }
@@ -195,8 +163,10 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
             ImageView iv=(ImageView)view.findViewById(R.id.ivImg);
             if(i==tabHost.getCurrentTab()){
                 ((TextView)view.findViewById(R.id.tvTab)).setTextColor(Color.RED);
+                iv.setImageResource(TabDb.getImgChoId()[i]);
             }else{
                 ((TextView)view.findViewById(R.id.tvTab)).setTextColor(Color.GRAY);
+                iv.setImageResource(TabDb.getImgNotId()[i]);
             }
 
         }

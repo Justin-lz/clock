@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:scaleType="center"
                 android:id="@+id/img_me"
-                android:background="@drawable/history"/>
+                android:background="@drawable/histroy"/>
 
             <TextView
                 android:layout_width="match_parent"
