@@ -277,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:text="你"
-                        android:id="@+id/you_rank"
+                        android:id="@+id/you"
                         android:textSize="30sp"
                         android:textColor="#34AFE6"
                         />
