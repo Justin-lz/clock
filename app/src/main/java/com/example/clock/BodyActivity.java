@@ -1,8 +1,11 @@
 package com.example.clock;
 
+import java.lang.reflect.Field;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTabHost;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -20,10 +23,14 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+
+
 
 public class BodyActivity extends FragmentActivity implements TabHost.OnTabChangeListener {
 
@@ -34,6 +41,7 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
@@ -110,12 +118,13 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
                         return true;
                     }
                 });
-                //一定要调用show()来显示弹出式菜单
                 menu.show();
             }
         });
 
     }
+
+
 
     //initTab()方法表示没有点击图标的时候的初始状态
     private void initTab() {

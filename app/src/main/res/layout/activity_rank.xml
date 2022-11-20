@@ -27,7 +27,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#B3FF9800"
                     android:layout_gravity="center">
 
                     <ImageView
@@ -35,7 +34,7 @@
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/group" />
+                        android:background="@drawable/first" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -71,36 +70,35 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
                             android:layout_gravity="center_horizontal"
-                            android:background="#80FF9800">
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/Second_img"
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"
                                 android:layout_gravity="center"
-                                android:background="@drawable/group" />
+                                android:background="@drawable/second" />
 
                             <TextView
+                                android:id="@+id/Second_id"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/Second_id"
-                                android:text="Secondname"
-                                android:textSize="15sp"
+                                android:layout_gravity="center"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
+                                android:text="Secname"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/Second_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:layout_margin="5dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/Second_time"
-                                android:text="Secondtime"
-                                android:textSize="15sp"
-                                android:layout_gravity="center"
-                                android:gravity="center"/>
+                                android:text="Sectime"
+                                android:textSize="15sp" />
 
                         </LinearLayout>
 
@@ -117,15 +115,14 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal"
-                            android:background="#80FF9800">
+                            android:gravity="center_horizontal">
 
                             <ImageView
                                 android:id="@+id/Third_img"
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"
                                 android:layout_gravity="center"
-                                android:background="@drawable/group" />
+                                android:background="@drawable/third" />
 
                             <TextView
                                 android:id="@+id/Third_id"

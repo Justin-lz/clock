@@ -17,7 +17,8 @@
             android:layout_height="200dp"
             android:background="#4DFF0000"
             android:id="@+id/user_img"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:src="@drawable/avater"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
