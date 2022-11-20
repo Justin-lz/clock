@@ -24,18 +24,14 @@ public class ClockFragment extends Fragment {
     private Button btn_runnable;
     private Button btn_settime;
     private Button btn_progress;
-    private TextView tv_result;
     private TextView tv_time;
     private int mCount = 0;
     private int mCounts = 0;
-    private  int progress;
     private  int sum=0;
     private  int x=0;
-    private  int y=0;
-    private boolean flag=false;
+    private boolean bStart = false;
     private ProgressBar pb_progress;
     private EditText et_progress;
-    private static int time=0;
     private TextProgressCircle tpc_progress;
 
     @Override
@@ -63,9 +59,6 @@ public class ClockFragment extends Fragment {
         tpc_progress.setProgress(0, "开始学习！",-1);
         setListenners();
 
-
-
-
         return view;
     }
 
@@ -82,6 +75,7 @@ public class ClockFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Intent intent = null;
+            int progress = 0;
             switch (view.getId()) {
                 case R.id.btn_runnable:
                     if (bStart == false) {
@@ -94,13 +88,16 @@ public class ClockFragment extends Fragment {
                     bStart = !bStart;
                     break;
                 case R.id.btn_settime:
-                    mCounts = Integer.parseInt(tv_time.getText().toString());//获取单次任务总时长
+                    String str=tv_time.getText().toString();
+                    if(str.equals("")) mCounts=0;
+                    else mCounts = Integer.parseInt(str);//获取单次任务总时长
                     mCount=mCounts*60; //单位s
                     x=mCount;
                     break;
                 case R.id.btn_progress:
-                    progress = Integer.parseInt(et_progress.getText().toString());
-//                    time=progress;
+                    String str1=et_progress.getText().toString();
+                    if(str1.equals("")) progress =0;
+                    else progress = Integer.parseInt(str1);
                     pb_progress.setMax(progress);//设置进度条总时长min
 //             pb_progress.setProgress(progress);
                     break;
@@ -109,7 +106,7 @@ public class ClockFragment extends Fragment {
         }
     }
 
-    private boolean bStart = false;
+
     private Handler mHandler = new Handler();
 
     public String secToTime(int time) {
@@ -141,8 +138,12 @@ public class ClockFragment extends Fragment {
         @Override
         public void run() {
 
+            int y=0;
             --mCount;
-            y=mCount*100/x;
+            if(x!=0){
+                y = mCount * 100 / x;
+            }
+
             if (mCount < 0) {
                 sum+=mCounts;
                 pb_progress.setProgress(sum);
