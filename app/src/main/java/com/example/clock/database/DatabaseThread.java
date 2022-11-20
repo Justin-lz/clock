@@ -1,11 +1,11 @@
-package com.example.storage.database;
+package com.example.clock.database;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import java.sql.SQLException;
 import java.util.HashMap;
-import com.example.clock.database.DatabaseDao
+
 
 public class DatabaseThread {
     public static void checkUserPassword(Handler handler,String userName,String password){

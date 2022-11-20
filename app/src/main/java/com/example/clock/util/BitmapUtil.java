@@ -1,4 +1,4 @@
-package com.example.webdemo;
+package com.example.clock.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
