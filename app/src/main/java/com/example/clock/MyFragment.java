@@ -42,7 +42,16 @@ public class MyFragment extends Fragment {
     private EditText time;
     private EditText resume;
     private ImageView avatar;
+    private Bitmap bitmap;
+
+    final static  String TAG="DBU";
+
     String userId = "10037";
+
+    public void showImage(Bitmap getData) {
+        bitmap=getData;
+        avatar.setImageBitmap(bitmap);
+    }
 
     private class myHandler extends Handler{
         @Override
@@ -60,8 +69,8 @@ public class MyFragment extends Fragment {
                     System.out.println(e);
                 }
                 String avatarString = infromation.get("userAvatar");
-                Bitmap img = BitmapUtil.Base642Bitmap(avatarString);
-                avatar.setImageBitmap(img);
+                bitmap = BitmapUtil.Base642Bitmap(avatarString);
+                avatar.setImageBitmap(bitmap);
             }
             if (msg.what == DatabaseDao.updateUserInformationFlag) {
                 String message;
@@ -90,7 +99,8 @@ public class MyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_mine, container, false);
-        FragmentActivity activity = getActivity();
+        BodyActivity activity =(BodyActivity) getActivity();
+        activity.setMyFragment(this);
         TextView textView =view.findViewById(R.id.user_name);
         Button change_btn = view.findViewById(R.id.user_change_btn);
         Button locate_btn = view.findViewById(R.id.user_locate_btn);
@@ -101,6 +111,12 @@ public class MyFragment extends Fragment {
         time =(EditText) view.findViewById(R.id.user_time_value);
         resume=(EditText) view.findViewById(R.id.user_resume);
         avatar=(ImageView) view.findViewById(R.id.user_img);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BodyActivity) getActivity()).getImage();
+            }
+        });
         locate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

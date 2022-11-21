@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,10 +36,78 @@ import java.util.Locale;
 
 public class BodyActivity extends FragmentActivity implements TabHost.OnTabChangeListener {
 
-    private static final String TAG = "tag";
+    private static final String TAG = "DBU";
     private ImageView me;
     private ImageView more;
     private FragmentTabHost tabHost;
+    private MyFragment myFragment=null;
+
+    private final static int CODE_OF_GALLERY=2;
+    private final static int CODE_OF_FINISH=3;
+
+    public void getImage(){
+        Intent intentfromGallery=new Intent(Intent.ACTION_PICK);
+//            这里intent携带的数据是uri型
+
+        intentfromGallery.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                "image/*");
+//        设置intent携带的类型，固定的就那么几种，这里是选择图片用"image/*"。还有例如//        intent.setType(“audio/*”); 选择音频//        intent.setType(“video/*”); 选择视频（mp4 3gp 是android支持的视频格式）
+
+
+        startActivityForResult(intentfromGallery,CODE_OF_GALLERY);
+    }
+
+    public void cropRawPhoto(Uri uri){
+        Intent intent=new Intent("com.android.camera.action.CROP");
+//        裁剪调用系统自带的Intent
+
+        intent.setDataAndType(uri,"image/*");
+
+//        设计裁剪
+        intent.putExtra("crop","true");
+
+        intent.putExtra("aspectX",1);
+        intent.putExtra("aspectY",1);
+
+        intent.putExtra("outputX",180);
+        intent.putExtra("outputY",180);
+        intent.putExtra("return-data",true);
+        /*记得start并返回返回码*/
+        startActivityForResult(intent,CODE_OF_FINISH);
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //传入返回码
+        switch (requestCode){
+
+//            调用本地相册的返回码的情况
+            case CODE_OF_GALLERY:
+//                从 返回码为CODE_OF_GALLERY的intent中取得数据,且该数据为uri型
+                Uri uri=data.getData();
+//                取得uri后，调用裁剪函数,把uri传进去，uri就是图片的全路径
+                cropRawPhoto(uri);
+                break;
+
+//     CODE_OF_FINISH 是调用了裁剪函数的返回码，即每次调用完从本地图库选完图片的函数后，都会执行裁剪函数，而裁剪函数返回的这个返回码在这里执行
+//            每当调用裁剪函数，都先从裁剪函数的intent中得到数据（都是通过intent传的数据，不管图片也好文字也好），数据类型是Bundle
+            case CODE_OF_FINISH:
+//                先从裁剪函数的intent中得到数据，数据类型是Bundle
+                Bundle bundle=data.getExtras();
+                if(bundle!=null) {
+//                这里的head是在全局中定义好的Bitmap类型的变量,从刚才获取的bundle调用getParcelable获得图片数据
+                    myFragment.showImage(bundle.getParcelable("data"));
+                }
+                break;
+        }
+    }
+
+
+
+    public void setMyFragment(MyFragment myFragment){
+        this.myFragment=myFragment;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
