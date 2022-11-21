@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class HistoryActivity extends AppCompatActivity {
     private ListView LV1;
-    private String userId = "10037";
+    private String userId;
 
 
     private class historyHandle extends Handler {
@@ -35,6 +35,7 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        userId = getIntent().getStringExtra("userId");
         LV1 = (ListView) findViewById(R.id.lv1);
 
         DatabaseThread.getUserHistory(new historyHandle(),userId);

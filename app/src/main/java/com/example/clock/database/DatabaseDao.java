@@ -228,18 +228,15 @@ public class DatabaseDao {
     }
     public String checkUserPassword(String userName, String password) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="select password from user_password where username="+userName;
+        String sql="select userid from user_password where username= '"+userName+"'and password='"+password+"'";
         ResultSet rs= statement.executeQuery(sql);
         rs.next();
-        String realpassword=rs.getString("password");
-        if(!realpassword.equals(password))
-            userName=null;
-        return userName;
+        return rs.getString("userid");
     }
 
     public Boolean checkUserUnique(String userName) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="select password from user_password where username="+userName;
+        String sql="select password from user_password where username= '"+userName+"'";
         boolean flag=statement.execute(sql);
         if(flag)
             return true;

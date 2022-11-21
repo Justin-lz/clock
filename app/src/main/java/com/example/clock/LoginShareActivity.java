@@ -65,8 +65,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         ck_remember = (CheckBox) findViewById(R.id.ck_remember);
         btn_login = (Button) findViewById(R.id.btn_login);
         ck_remember.setOnCheckedChangeListener(new CheckListener());
-        et_phone.addTextChangedListener(new HideTextWatcher(et_phone));
-        et_password.addTextChangedListener(new HideTextWatcher(et_password));
         btn_register.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         mShared = getSharedPreferences("share_login", MODE_PRIVATE);
@@ -77,17 +75,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
 
     }
 
-    private class RadioListener implements RadioGroup.OnCheckedChangeListener {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId == R.id.rb_password) {
-                tv_password.setText("登录密码：");
-                et_password.setHint("请输入密码");
-                btn_register.setText("忘记密码");
-                ck_remember.setVisibility(View.VISIBLE);
-            }
-        }
-    }
 
 
     private class CheckListener implements CompoundButton.OnCheckedChangeListener {
@@ -99,46 +86,19 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         }
     }
 
-    private class HideTextWatcher implements TextWatcher {
-        private EditText mView;
-        private int mMaxLength;
-        private CharSequence mStr;
-
-        public HideTextWatcher(EditText v) {
-            super();
-            mView = v;
-            mMaxLength = ViewUtil.getMaxLength(v);
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mStr = s;
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (mStr == null || mStr.length() == 0)
-                return;
-            if ((mStr.length() == 11 && mMaxLength == 11) ||
-                    (mStr.length() == 6 && mMaxLength == 6)) {
-                ViewUtil.hideOneInputMethod(LoginShareActivity.this, mView);
-            }
-        }
-    }
-
     private class loginHandler extends Handler {
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (msg.what == DatabaseDao.checkUserPasswordFlag) {
-                String str = msg.getData().getString("value");
-                System.out.println(str);
-                if (str!=null)
-                    startActivity(new Intent(LoginShareActivity.this, BodyActivity.class));
-                else Toast.makeText(LoginShareActivity.this, "用户名或密码不正确", Toast.LENGTH_SHORT).show();
+                String userId = msg.getData().getString("value");
+                if (userId!=null){
+                    Intent intent = new Intent(LoginShareActivity.this, BodyActivity.class);
+                    intent.putExtra("userId",userId);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(LoginShareActivity.this, "用户名或密码不正确", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -151,10 +111,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         String phone = et_phone.getText().toString();
         String password = et_password.getText().toString();
         if (v.getId() == R.id.btn_forget) {
-            if (phone == null || phone.length() < 11) {
-                Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (rb_password.isChecked() == true) {
                 Intent intent = new Intent(this, LoginForgetActivity.class);
                 intent.putExtra("phone", phone);
@@ -169,10 +125,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
                 alert.show();
             }
         } else if (v.getId() == R.id.btn_login) {
-            if (phone == null || phone.length() < 11) {
-                Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (rb_password.isChecked() == true) {
                 DatabaseThread.checkUserPassword(new loginHandler(), phone, password);
                 /*if (password.equals(mPassword) != true) {

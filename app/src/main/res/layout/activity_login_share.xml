@@ -57,8 +57,6 @@
             android:background="@drawable/editext_selector"
             android:gravity="left|center"
             android:hint="请输入用户名"
-            android:inputType="number"
-            android:maxLength="11"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:textCursorDrawable="@drawable/text_cursor"

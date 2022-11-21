@@ -41,9 +41,14 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
     private ImageView more;
     private FragmentTabHost tabHost;
     private MyFragment myFragment=null;
+    private String userId;
 
     private final static int CODE_OF_GALLERY=2;
     private final static int CODE_OF_FINISH=3;
+
+    public String getUserId(){
+        return userId;
+    }
 
     public void getImage(){
         Intent intentfromGallery=new Intent(Intent.ACTION_PICK);
@@ -137,7 +142,7 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body);
-
+        userId = getIntent().getStringExtra("userId");
         initIcon();
 
         tabHost=(FragmentTabHost)super.findViewById(android.R.id.tabhost);
@@ -158,6 +163,7 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
+                intent.putExtra("userId",userId);
                 intent.setClass(BodyActivity.this,HistoryActivity.class);
                 startActivity(intent);
             }
@@ -176,13 +182,12 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
 
                         switch (menuItem.getItemId()){
                             case R.id.menu_change:
+                            case R.id.menu_logout:
                                 startActivity(new Intent(BodyActivity.this,LoginShareActivity.class));
+                                finish();
                                 break;
                             case R.id.menu_finish:
                                 Toast.makeText(BodyActivity.this, "finish", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.menu_logout:
-                                startActivity(new Intent(BodyActivity.this,LoginShareActivity.class));
                                 break;
                         }
                         return true;

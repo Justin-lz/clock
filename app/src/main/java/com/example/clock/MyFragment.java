@@ -48,7 +48,7 @@ public class MyFragment extends Fragment {
 
     final static  String TAG="DBU";
 
-    String userId = "10039";
+    private String userId ;
 
     public void showImage(Bitmap getData) {
         bitmap=getData;
@@ -108,6 +108,7 @@ public class MyFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_mine, container, false);
         BodyActivity activity =(BodyActivity) getActivity();
         activity.setMyFragment(this);
+        userId = activity.getUserId();
         TextView textView =view.findViewById(R.id.user_name);
         Button change_btn = view.findViewById(R.id.user_change_btn);
         Button locate_btn = view.findViewById(R.id.user_locate_btn);
