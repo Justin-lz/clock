@@ -1,34 +1,44 @@
 package com.example.clock;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.clock.database.DatabaseDao;
+import com.example.clock.database.DatabaseThread;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class HistoryActivity extends AppCompatActivity {
     private ListView LV1;
+    private String userId = "10037";
+
+
+    private class historyHandle extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == DatabaseDao.getUserHistoryFlag) {
+                LV1.setAdapter(new MyListAdapter(HistoryActivity.this, (ArrayList<HashMap<String,String>>) msg.getData().getSerializable("value")));  //安装自定义列表适配器
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        LV1 = (ListView) findViewById(R.id.lv1);
 
-        LV1=(ListView) findViewById(R.id.lv1);
-        LV1.setAdapter(new MyListAdapter(HistoryActivity.this));  //安装自定义列表适配器
-        LV1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //点击事件监听器
+        DatabaseThread.getUserHistory(new historyHandle(),userId);
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(HistoryActivity.this, "点击pos"+i, Toast.LENGTH_SHORT).show();
-            }
-        });
-        LV1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { //长按事件监听器
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(HistoryActivity.this, "长按 pos:"+i, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-    }}
+
+    }
+}

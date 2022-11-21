@@ -2,7 +2,9 @@ package com.example.clock;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +48,7 @@ public class MyFragment extends Fragment {
 
     final static  String TAG="DBU";
 
-    String userId = "10037";
+    String userId = "10039";
 
     public void showImage(Bitmap getData) {
         bitmap=getData;
@@ -69,8 +71,13 @@ public class MyFragment extends Fragment {
                     System.out.println(e);
                 }
                 String avatarString = infromation.get("userAvatar");
-                bitmap = BitmapUtil.Base642Bitmap(avatarString);
-                avatar.setImageBitmap(bitmap);
+                if (avatarString!=null) {
+                    bitmap = BitmapUtil.Base642Bitmap(avatarString);
+                    avatar.setImageBitmap(bitmap);
+                }else{
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avater);
+
+                }
             }
             if (msg.what == DatabaseDao.updateUserInformationFlag) {
                 String message;
