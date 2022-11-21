@@ -236,12 +236,10 @@ public class DatabaseDao {
 
     public Boolean checkUserUnique(String userName) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="select password from user_password where username= '"+userName+"'";
-        boolean flag=statement.execute(sql);
-        if(flag)
-            return true;
-        else
-            return false;
+        String sql="select userName from user_password where username= '"+userName+"'";
+        ResultSet rs=statement.executeQuery(sql);
+        rs.next();
+        return rs.getString("username")==null;
     }
     public int getUserTimeSet(String userID) throws SQLException {
         Statement statement= conn.createStatement();
@@ -253,7 +251,7 @@ public class DatabaseDao {
     }
     public Boolean updateUserTimeSet(String userID, int timeLength) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="update user_info set usertimeset="+timeLength+" where username="+userID;
+        String sql="update user_info set usertimeset= '"+timeLength+"' where username="+userID;
         boolean flag=statement.execute(sql);
         if(flag)
             return true;
