@@ -99,12 +99,13 @@
         android:text="记住我"
         android:textColor="@color/black"
         android:textSize="17sp" />
+
     <Button
         android:id="@+id/btn_forget"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_gravity="right"
         android:layout_alignParentRight="true"
+        android:layout_gravity="right"
         android:gravity="center"
         android:text="忘记密码"
         android:textColor="@color/black"

@@ -238,8 +238,7 @@ public class DatabaseDao {
         Statement statement= conn.createStatement();
         String sql="select userName from user_password where username= '"+userName+"'";
         ResultSet rs=statement.executeQuery(sql);
-        rs.next();
-        return rs.getString("username")==null;
+        return rs.next();
     }
     public int getUserTimeSet(String userID) throws SQLException {
         Statement statement= conn.createStatement();

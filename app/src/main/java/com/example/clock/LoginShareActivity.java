@@ -61,7 +61,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         et_phone = (EditText) findViewById(R.id.et_phone);
         tv_password = (TextView) findViewById(R.id.tv_password);
         et_password = (EditText) findViewById(R.id.et_password);
-        btn_register = (Button) findViewById(R.id.btn_forget);
+        btn_register = (Button) findViewById(R.id.btn_register);
         ck_remember = (CheckBox) findViewById(R.id.ck_remember);
         btn_login = (Button) findViewById(R.id.btn_login);
         ck_remember.setOnCheckedChangeListener(new CheckListener());
@@ -110,7 +110,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
     public void onClick(View v) {
         String phone = et_phone.getText().toString();
         String password = et_password.getText().toString();
-        if (v.getId() == R.id.btn_forget) {
+        if (v.getId() == R.id.btn_register) {
             if (rb_password.isChecked() == true) {
                 Intent intent = new Intent(this, LoginForgetActivity.class);
                 intent.putExtra("phone", phone);
@@ -125,24 +125,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
                 alert.show();
             }
         } else if (v.getId() == R.id.btn_login) {
-            if (rb_password.isChecked() == true) {
                 DatabaseThread.checkUserPassword(new loginHandler(), phone, password);
-                /*if (password.equals(mPassword) != true) {
-                    Toast.makeText(this, "请输入正确的密码", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    startActivity(new Intent(LoginShareActivity.this,BodyActivity.class));
-                }*/
-            } else if (rb_verifycode.isChecked() == true) {
-                if (et_password.getText().toString().equals(mVerifyCode) != true) {
-                    Toast.makeText(this, "请输入正确的验证码", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-
-
-
-                }
-            }
         }
     }
 
