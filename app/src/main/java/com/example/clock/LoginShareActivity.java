@@ -1,10 +1,20 @@
 package com.example.clock;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
+import com.example.clock.database.DatabaseDao;
+import com.example.clock.database.DatabaseThread;
+import com.example.clock.util.BitmapUtil;
 import com.example.clock.util.ViewUtil;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,6 +28,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 
 public class LoginShareActivity extends AppCompatActivity implements OnClickListener {
 
@@ -27,7 +40,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
     private EditText et_phone;
     private TextView tv_password;
     private EditText et_password;
-    private Button btn_forget;
+    private Button btn_register;
     private CheckBox ck_remember;
     private Button btn_login;
 
@@ -48,23 +61,20 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         et_phone = (EditText) findViewById(R.id.et_phone);
         tv_password = (TextView) findViewById(R.id.tv_password);
         et_password = (EditText) findViewById(R.id.et_password);
-        btn_forget = (Button) findViewById(R.id.btn_forget);
+        btn_register = (Button) findViewById(R.id.btn_forget);
         ck_remember = (CheckBox) findViewById(R.id.ck_remember);
         btn_login = (Button) findViewById(R.id.btn_login);
-
-//        rg_login.setOnCheckedChangeListener(new RadioListener());
         ck_remember.setOnCheckedChangeListener(new CheckListener());
         et_phone.addTextChangedListener(new HideTextWatcher(et_phone));
         et_password.addTextChangedListener(new HideTextWatcher(et_password));
-        btn_forget.setOnClickListener(this);
+        btn_register.setOnClickListener(this);
         btn_login.setOnClickListener(this);
-
-
         mShared = getSharedPreferences("share_login", MODE_PRIVATE);
         String phone = mShared.getString("phone", "");
         String password = mShared.getString("password", "");
         et_phone.setText(phone);
         et_password.setText(password);
+
     }
 
     private class RadioListener implements RadioGroup.OnCheckedChangeListener {
@@ -73,7 +83,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
             if (checkedId == R.id.rb_password) {
                 tv_password.setText("登录密码：");
                 et_password.setHint("请输入密码");
-                btn_forget.setText("忘记密码");
+                btn_register.setText("忘记密码");
                 ck_remember.setVisibility(View.VISIBLE);
             }
         }
@@ -120,11 +130,28 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         }
     }
 
+    private class loginHandler extends Handler {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == DatabaseDao.checkUserPasswordFlag) {
+                String str = msg.getData().getString("value");
+                System.out.println(str);
+                if (str!=null)
+                    startActivity(new Intent(LoginShareActivity.this, BodyActivity.class));
+                else Toast.makeText(LoginShareActivity.this, "用户名或密码不正确", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    ;
+
+
     @Override
     public void onClick(View v) {
         String phone = et_phone.getText().toString();
+        String password = et_password.getText().toString();
         if (v.getId() == R.id.btn_forget) {
-            if (phone==null || phone.length()<11) {
+            if (phone == null || phone.length() < 11) {
                 Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -133,34 +160,35 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
                 intent.putExtra("phone", phone);
                 startActivityForResult(intent, mRequestCode);
             } else if (rb_verifycode.isChecked() == true) {
-                mVerifyCode = String.format("%06d", (int)(Math.random()*1000000%1000000));
+                mVerifyCode = String.format("%06d", (int) (Math.random() * 1000000 % 1000000));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("请记住验证码");
-                builder.setMessage("手机号"+phone+"，本次验证码是"+mVerifyCode+"，请输入验证码");
+                builder.setMessage("手机号" + phone + "，本次验证码是" + mVerifyCode + "，请输入验证码");
                 builder.setPositiveButton("好的", null);
                 AlertDialog alert = builder.create();
                 alert.show();
             }
         } else if (v.getId() == R.id.btn_login) {
-            if (phone==null || phone.length()<11) {
+            if (phone == null || phone.length() < 11) {
                 Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (rb_password.isChecked() == true) {
-                if (et_password.getText().toString().equals(mPassword) != true) {
+                DatabaseThread.checkUserPassword(new loginHandler(), phone, password);
+                /*if (password.equals(mPassword) != true) {
                     Toast.makeText(this, "请输入正确的密码", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-//                    loginSuccess();
                     startActivity(new Intent(LoginShareActivity.this,BodyActivity.class));
-                }
+                }*/
             } else if (rb_verifycode.isChecked() == true) {
                 if (et_password.getText().toString().equals(mVerifyCode) != true) {
                     Toast.makeText(this, "请输入正确的验证码", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-//                    loginSuccess();
-                    startActivity(new Intent(LoginShareActivity.this,BodyActivity.class));
+
+
+
                 }
             }
         }
@@ -181,29 +209,5 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         et_password.setText("");
         super.onRestart();
     }
-
- /*   private void loginSuccess() {
-        String desc = String.format("您的手机号码是%s，类型是%s。恭喜你通过登录验证，点击“确定”按钮返回上个页面",
-                et_phone.getText().toString(), typeArray[mType]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("登录成功");
-        builder.setMessage(desc);
-        builder.setPositiveButton("确定返回", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton("我再看看", null);
-        AlertDialog alert = builder.create();
-        alert.show();
-
-        if (bRemember) {
-            SharedPreferences.Editor editor = mShared.edit();
-            editor.putString("phone", et_phone.getText().toString());
-            editor.putString("password", et_password.getText().toString());
-            editor.commit();
-        }
-    }*/
 
 }
