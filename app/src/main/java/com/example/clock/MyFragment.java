@@ -35,11 +35,11 @@ import com.example.clock.util.BitmapUtil;
 import java.util.HashMap;
 
 public class MyFragment extends Fragment {
-    private EditText location;
-    private EditText name;
+    private TextView location;
+    private TextView name;
     private EditText sex;
     private EditText age;
-    private EditText time;
+    private TextView time;
     private EditText resume;
     private ImageView avatar;
     private Bitmap bitmap;
@@ -104,11 +104,11 @@ public class MyFragment extends Fragment {
         TextView textView =view.findViewById(R.id.user_name);
         Button change_btn = view.findViewById(R.id.user_change_btn);
         Button locate_btn = view.findViewById(R.id.user_locate_btn);
-        location =(EditText) view.findViewById(R.id.user_location_value);
-        name = (EditText) view.findViewById(R.id.user_name);
+        location =(TextView) view.findViewById(R.id.user_location_value);
+        name = (TextView) view.findViewById(R.id.user_name);
         sex = (EditText) view.findViewById(R.id.user_sex_value);
         age =(EditText) view.findViewById(R.id.user_age_value);
-        time =(EditText) view.findViewById(R.id.user_time_value);
+        time =(TextView) view.findViewById(R.id.user_time_value);
         resume=(EditText) view.findViewById(R.id.user_resume);
         avatar=(ImageView) view.findViewById(R.id.user_img);
         avatar.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +131,17 @@ public class MyFragment extends Fragment {
         change_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String userAvatar = BitmapUtil.Image2Base64(bitmap);
+                String userSex = sex.getText().toString();
+                String userResume =resume.getText().toString();
+                String userAge = age.getText().toString();
+                HashMap<String,String> userinfo = new HashMap<>();
+                userinfo.put("userAvatar",userAvatar);
+                userinfo.put("userSex",userSex);
+                userinfo.put("userResume",userResume);
+                userinfo.put("userAge",userAge);
 
+                DatabaseThread.updateUserInformation(new myHandler(),userId,userinfo);
             }
         });
 
