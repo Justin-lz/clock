@@ -41,6 +41,7 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
     private FragmentTabHost tabHost;
     private MyFragment myFragment=null;
     private String userId;
+    private String STR;
 
     private final static int CODE_OF_GALLERY=2;
     private final static int CODE_OF_FINISH=3;
