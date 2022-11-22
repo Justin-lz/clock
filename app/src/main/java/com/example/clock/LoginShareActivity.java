@@ -47,9 +47,7 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
     private int mRequestCode = 0;
     private int mType = 0;
     private boolean bRemember = false;
-    private String mPassword = "111111";
-    private String mVerifyCode;
-    private SharedPreferences mShared;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         setContentView(R.layout.activity_login_share);
         rg_login = (RadioGroup) findViewById(R.id.rg_login);
         rb_password = (RadioButton) findViewById(R.id.rb_password);
-        rb_verifycode = (RadioButton) findViewById(R.id.rb_verifycode);
         et_phone = (EditText) findViewById(R.id.et_phone);
         tv_password = (TextView) findViewById(R.id.tv_password);
         et_password = (EditText) findViewById(R.id.et_password);
@@ -67,11 +64,6 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         ck_remember.setOnCheckedChangeListener(new CheckListener());
         btn_register.setOnClickListener(this);
         btn_login.setOnClickListener(this);
-        mShared = getSharedPreferences("share_login", MODE_PRIVATE);
-        String phone = mShared.getString("phone", "");
-        String password = mShared.getString("password", "");
-        et_phone.setText(phone);
-        et_password.setText(password);
 
     }
 
@@ -103,38 +95,16 @@ public class LoginShareActivity extends AppCompatActivity implements OnClickList
         }
     }
 
-    ;
-
 
     @Override
     public void onClick(View v) {
         String phone = et_phone.getText().toString();
         String password = et_password.getText().toString();
         if (v.getId() == R.id.btn_register) {
-            if (rb_password.isChecked() == true) {
                 Intent intent = new Intent(this, LoginForgetActivity.class);
-                intent.putExtra("phone", phone);
                 startActivityForResult(intent, mRequestCode);
-            } else if (rb_verifycode.isChecked() == true) {
-                mVerifyCode = String.format("%06d", (int) (Math.random() * 1000000 % 1000000));
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("请记住验证码");
-                builder.setMessage("手机号" + phone + "，本次验证码是" + mVerifyCode + "，请输入验证码");
-                builder.setPositiveButton("好的", null);
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
         } else if (v.getId() == R.id.btn_login) {
                 DatabaseThread.checkUserPassword(new loginHandler(), phone, password);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == mRequestCode && data != null) {
-            //用户密码已改为新密码
-            mPassword = data.getStringExtra("new_password");
         }
     }
 

@@ -52,7 +52,6 @@ public class LoginForgetActivity extends AppCompatActivity implements OnClickLis
             Boolean flag = false;
             if (msg.what == DatabaseDao.checkUserUniqueFlag) {
                 flag = msg.getData().getBoolean("value");
-                System.out.println(flag);
                 if (flag) {
                     Toast.makeText(LoginForgetActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
                 } else {
@@ -80,7 +79,6 @@ public class LoginForgetActivity extends AppCompatActivity implements OnClickLis
         } else if (v.getId() == R.id.btn_confirm) {
             String username = et_usename.getText().toString();
             String password_second = et_password_second.getText().toString();
-            System.out.println(username + password_second);
             forgetHandler forgetHandler = new forgetHandler(username, password_second);
             DatabaseThread.checkUserUnique(forgetHandler, username);
 

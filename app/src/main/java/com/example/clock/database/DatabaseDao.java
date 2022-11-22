@@ -242,7 +242,7 @@ public class DatabaseDao {
     }
     public int getUserTimeSet(String userID) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="select usertimeset from user_info where username="+userID;
+        String sql="select usertimeset from user_info where userid="+userID;
         ResultSet rs=statement.executeQuery(sql);
         rs.next();
         int usertimeset=rs.getInt("usertimeset");
@@ -250,11 +250,8 @@ public class DatabaseDao {
     }
     public Boolean updateUserTimeSet(String userID, int timeLength) throws SQLException {
         Statement statement= conn.createStatement();
-        String sql="update user_info set usertimeset= '"+timeLength+"' where username="+userID;
+        String sql="update user_info set usertimeset= '"+timeLength+"' where userid="+userID;
         boolean flag=statement.execute(sql);
-        if(flag)
-            return true;
-        else
-            return false;
+        return flag;
     }
 }

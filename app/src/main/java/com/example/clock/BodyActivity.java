@@ -188,6 +188,7 @@ public class BodyActivity extends FragmentActivity implements TabHost.OnTabChang
                                 break;
                             case R.id.menu_finish:
                                 Toast.makeText(BodyActivity.this, "finish", Toast.LENGTH_SHORT).show();
+                                finish();
                                 break;
                         }
                         return true;
