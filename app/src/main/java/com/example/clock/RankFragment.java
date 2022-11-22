@@ -86,29 +86,35 @@ public class RankFragment extends Fragment {
                 }
                 {
                     HashMap<String,String> rank = rankAll.get(i);
-                    beforeAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
-                    beforeName.setText(rank.get("userName"));
-                    beforeName.setText(rank.get("allTime"));
-                    beforeRank.setText("排名："+rank.get("userRank"));
-                    beforeResume.setText(rank.get("userResume"));
+                    if (!rank.get("userId").equals("00000")) {
+                        beforeAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
+                        beforeName.setText(rank.get("userName"));
+                        beforeName.setText(rank.get("allTime"));
+                        beforeRank.setText("排名：" + rank.get("userRank"));
+                        beforeResume.setText(rank.get("userResume"));
+                    }
                     i++;
                 }
                 {
                     HashMap<String,String> rank = rankAll.get(i);
-                    youAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
-                    youName.setText(rank.get("userName"));
-                    youName.setText(rank.get("allTime"));
-                    youRank.setText("排名："+rank.get("userRank"));
-                    youResume.setText(rank.get("userResume"));
+                    if (!rank.get("userId").equals("00000")) {
+                        youAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
+                        youName.setText(rank.get("userName"));
+                        youName.setText(rank.get("allTime"));
+                        youRank.setText("排名：" + rank.get("userRank"));
+                        youResume.setText(rank.get("userResume"));
+                    }
                     i++;
                 }
                 {
                     HashMap<String,String> rank = rankAll.get(i);
-                    afterAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
-                    afterName.setText(rank.get("userName"));
-                    afterName.setText(rank.get("allTime"));
-                    afterRank.setText("排名："+rank.get("userRank"));
-                    afterResume.setText(rank.get("userResume"));
+                    if (!rank.get("userId").equals("00000")) {
+                        afterAvatar.setImageBitmap(BitmapUtil.Base642Bitmap(rank.get("userAvatar")));
+                        afterName.setText(rank.get("userName"));
+                        afterName.setText(rank.get("allTime"));
+                        afterRank.setText("排名：" + rank.get("userRank"));
+                        afterResume.setText(rank.get("userResume"));
+                    }
                 }
 
 
