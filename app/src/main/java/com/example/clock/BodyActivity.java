@@ -36,7 +36,6 @@ import java.util.Locale;
 
 public class BodyActivity extends FragmentActivity implements TabHost.OnTabChangeListener {
 
-    private static final String TAG = "DBU";
     private ImageView me;
     private ImageView more;
     private FragmentTabHost tabHost;
