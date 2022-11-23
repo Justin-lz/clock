@@ -20,7 +20,7 @@ public class TextProgressCircle extends View {
 	private  String str;
 	private int mLineWidth = 10;
 	private int mLineColor = Color.WHITE;
-	private float mTextSize = 100.0f;
+	private float mTextSize = 80.0f;
 	private RectF mRect;
 	private float mProgress = 0;
 
